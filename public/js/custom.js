@@ -33,9 +33,10 @@ $('.uploadBtn').on('click',function(e) {
     let file_Uploaded_mb= $(this).closest('tr').find('.file_Uploaded_mb');
     let file_status= $(this).closest('tr').find('.file_status');
     let file_parcent= $(this).closest('tr').find('.file_parcent');
+    let upBtn= $(this);
     let fData = new FormData();
     fData.append('fileKey',currentFile[0]);
-    onUpload(fData,file_Uploaded_mb,file_parcent,file_status);
+    onUpload(fData,file_Uploaded_mb,file_parcent,file_status,upBtn);
     e.preventDefault();
     e.stopImmediatePropagation();
 })
@@ -46,8 +47,11 @@ $(this).parents('tr').remove();
 })
 })
 
-function onUpload(fData,file_Uploaded_mb,file_parcent,file_status) { 
+function onUpload(fData,file_Uploaded_mb,file_parcent,file_status,upBtn) { 
     let url= '/uploadfile';
+    upBtn.prop('disabled',true);
+    file_status.html('Uploading..');
+
     let config={
         headers:{'content-type':'multipart/form-data'},
         onUploadProgress: progressEvent=>{

@@ -14,9 +14,10 @@ $('#addNewFile').on('click', function () {
     var file_Uploaded_mb = $(this).closest('tr').find('.file_Uploaded_mb');
     var file_status = $(this).closest('tr').find('.file_status');
     var file_parcent = $(this).closest('tr').find('.file_parcent');
+    var upBtn = $(this);
     var fData = new FormData();
     fData.append('fileKey', currentFile[0]);
-    onUpload(fData, file_Uploaded_mb, file_parcent, file_status);
+    onUpload(fData, file_Uploaded_mb, file_parcent, file_status, upBtn);
     e.preventDefault();
     e.stopImmediatePropagation();
   }); //cancel added row 
@@ -26,8 +27,10 @@ $('#addNewFile').on('click', function () {
   });
 });
 
-function onUpload(fData, file_Uploaded_mb, file_parcent, file_status) {
+function onUpload(fData, file_Uploaded_mb, file_parcent, file_status, upBtn) {
   var url = '/uploadfile';
+  upBtn.prop('disabled', true);
+  file_status.html('Uploading..');
   var config = {
     headers: {
       'content-type': 'multipart/form-data'
